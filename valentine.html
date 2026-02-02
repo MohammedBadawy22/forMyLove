@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Wessam ❤️</title>
+    <meta property="og:title" content="For Wessam ❤️">
+    <meta property="og:description" content="I have a special question for you...">
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 99%, #fad0c4 100%);
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Floating Hearts Background */
+        .hearts-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            overflow: hidden; pointer-events: none; z-index: 1;
+        }
+        .heart {
+            position: absolute; bottom: -100px;
+            font-size: 20px; color: rgba(255, 255, 255, 0.6);
+            animation: float 6s linear infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0) scale(1); opacity: 0; }
+            10% { opacity: 0.8; }
+            100% { transform: translateY(-120vh) scale(1.5); opacity: 0; }
+        }
+
+        .container {
+            position: relative; z-index: 10;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px; border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            text-align: center; max-width: 600px; width: 90%;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+        }
+
+        h1 {
+            font-family: 'Pacifico', cursive; color: #d63384;
+            font-size: 2.8em; margin-bottom: 30px; line-height: 1.3;
+        }
+
+        .buttons {
+            display: flex; justify-content: center; gap: 20px; margin-top: 30px;
+        }
+
+        button {
+            padding: 15px 40px; font-size: 1.2em; border: none; border-radius: 50px;
+            cursor: pointer; transition: transform 0.2s, background 0.2s;
+            font-family: 'Poppins', sans-serif; font-weight: 600; min-width: 120px;
+        }
+
+        #yesBtn {
+            background-color: #ff4757; color: white;
+            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4);
+        }
+        #yesBtn:hover { background-color: #ff6b81; transform: scale(1.1); }
+
+        #noBtn {
+            background-color: #f1f2f6; color: #2f3542;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .success-message {
+            display: none; flex-direction: column; align-items: center;
+        }
+        .success-message h1 { color: #ff4757; font-size: 3em; margin: 0; }
+        .success-message p { font-size: 1.5em; color: #57606f; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="hearts-bg" id="heartsBg"></div>
+
+    <div class="container">
+        <div id="proposal">
+            <h1>Wessam, my love will you be my valentine? 🌹</h1>
+            <div class="buttons">
+                <button id="yesBtn">Yes</button>
+                <button id="noBtn">No</button>
+            </div>
+        </div>
+        <div class="success-message" id="success">
+            <h1>yaaaaaaayyy!!!!!</h1>
+            <p>you will be my valentine foreverrrr ❤️❤️❤️</p>
+        </div>
+    </div>
+
+    <!-- Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const proposalDiv = document.getElementById('proposal');
+        const successDiv = document.getElementById('success');
+        const heartsBg = document.getElementById('heartsBg');
+
+        // Background Hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.innerHTML = Math.random() < 0.5 ? '❤️' : '💖';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 4 + 's';
+            heart.style.fontSize = Math.random() * 20 + 20 + 'px';
+            heartsBg.appendChild(heart);
+            setTimeout(() => heart.remove(), 8000);
+        }
+        setInterval(createHeart, 300);
+
+        // No Button Logic
+        function moveNoBtn() {
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 50) + 25;
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 50) + 25;
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = `${x}px`;
+            noBtn.style.top = `${y}px`;
+            noBtn.style.transition = 'none'; // Snap movement
+            noBtn.style.zIndex = '1000';
+        }
+        
+        ['mouseover', 'click', 'touchstart'].forEach(evt => 
+            noBtn.addEventListener(evt, (e) => { e.preventDefault(); moveNoBtn(); })
+        );
+
+        // Yes Button Logic
+        yesBtn.addEventListener('click', () => {
+            proposalDiv.style.display = 'none';
+            successDiv.style.display = 'flex';
+            
+            // Explosion
+            const duration = 5000;
+            const end = Date.now() + duration;
+
+            (function frame() {
+                confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 } });
+                confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 } });
+                if (Date.now() < end) requestAnimationFrame(frame);
+            }());
+
+            // More hearts
+            setInterval(createHeart, 100);
+        });
+    </script>
+</body>
+</html>
